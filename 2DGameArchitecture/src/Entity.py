@@ -66,7 +66,7 @@ class GameObject(object):
 # class entity
 class Entity(object):
     def __init__(self):
-        self.gameObject = GameObject('null', 'null')  # add component gameobject
+        self.gameObject = GameObject('null', 'null')  # add component game object
         self.transform = Transform(vector2(0.0, 0.0), 64, 64)  # add component transform
         self.components = {}  # list of the components in the entity : dictionary{key:value}
 
@@ -75,7 +75,7 @@ class Entity(object):
         key = component.key  # get key from component key : str
         # only allow one same component to the entity
         if key in self.components.keys():
-            print('Entity::78:: Component already exist inside the Entity!, cannot add Component')
+            print('[INFO] Entity::78:: Component already exist inside the Entity!, cannot add Component')
         else:
             self.components[key] = component  # add the component in the list of components
             self.process_all_components(key)  # process all the components that been added to the entity
@@ -85,7 +85,7 @@ class Entity(object):
         key = component.key  # get key from component key : str
         # check if the key is inside the components
         if key not in self.components:
-            print('Component is not inside the components')  # if not inside the components
+            print('[ERROR] Entity::Component is not inside the components')  # if not inside the components
         else:
             return self.components[key]  # else give back the component
 
@@ -102,8 +102,8 @@ class Entity(object):
     # with each other, making this as very important function
     def process_all_components(self, key):
         for key in self.components:
-            self.components.get(key).transform = self.transform
-            self.components.get(key).gameObject = self.gameObject
+            self.components.get(key).transform = self.transform  # update components transform
+            self.components.get(key).gameObject = self.gameObject  # update components game object
         '''
         if key == 'Collider':
             self.components.get(key).transform = self.transform
@@ -159,3 +159,36 @@ class Entity(object):
             component.render(window, self.transform.position, self.transform.width, self.transform.height)
         # print(self.transform.marker_image_position)
         # window.blit(self.transform.marker_image, self.transform.marker_image_position)
+
+
+class EntitiesManager(object):
+    def __init__(self):
+        self.entities = []
+
+    def add(self, entity: Entity):
+        self.entities.append(entity)
+        entity.start()
+
+    def handle_events(self, event, delta_time):
+        for entity in self.entities:
+            entity.handle_events(event, delta_time)
+
+    def handle_mouse_motions(self, event, delta_time, mouse_position):
+        for entity in self.entities:
+            entity.handle_mouse_motions(event, delta_time, mouse_position)
+
+    def handle_mouse_events(self, event, delta_time, mouse_position):
+        for entity in self.entities:
+            entity.handle_mouse_events(event, delta_time, mouse_position)
+
+    def update(self, delta_time):
+        for entity in self.entities:
+            entity.update(delta_time)
+
+    def render(self, window):
+        for entity in self.entities:
+            entity.render(window)
+
+    def clear(self):
+        self.entities.clear()
+        del self.entities[:]

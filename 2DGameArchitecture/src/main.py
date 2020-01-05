@@ -18,11 +18,13 @@ def main():
     record_log = open('../dev/record.log', 'a')  # create a record log to record activities
 
     # this is welcoming page and developer description
-    print('welcome to 2D architecture game development')
+    print('welcome to Cbit-Python game engine')
     print('Author :', author)  # show author name
     print('Software version :', version)  # show application version
     print('Company :', company_name)  # show company name
 
+    # game main function
+    # -----------------
     # create the game
     game = Game(TITLE, WIDTH, HEIGHT, False)  # game : Game()
     # init the game
@@ -34,7 +36,10 @@ def main():
         game.render()  # render or draw all images in the game
         game.clear()  # clear all the image in the game
     game.quit()  # quit the game
+    # -----------------
 
+    # for recording and log
+    # ---------------------
     # dd/mm/YY H:M:S
     date_string = now.strftime('%d-%m-%Y %H:%M:%S')
     # record

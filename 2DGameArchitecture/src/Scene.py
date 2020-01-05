@@ -23,6 +23,12 @@ def load_font_data(filename, size):
     return font_data  # font data : pygame.font.Font()
 
 
+# class responsible to load and give all the data in the game
+class Data(object):
+    def __init__(self):
+        self.kenny_future_narrow_font = load_font_data('Kenney Future Narrow.ttf', 20)
+
+
 # base class for all the scene
 class Scene(object):
     def __init__(self, scene_manager):
@@ -125,6 +131,31 @@ class SceneManager(object):
 
     def clear(self):
         self.scenes[len(self.scenes) - 1].clear()
+
+
+# class splash screen
+# class splash screen will show logo for 5 seconds
+class SplashScreen(Scene):
+    def __init__(self, scene_manager):
+        super().__init__(scene_manager)
+        self.name = "Splash Screen"
+        self.tag = "Splash Screen"
+        self.entities_manager = []
+
+    def start(self):
+        pass
+
+    def handle_events(self, event, delta_time):
+        pass
+
+    def update(self, delta_time):
+        pass
+
+    def render(self, window):
+        pass
+
+    def clear(self):
+        pass
 
 
 # class main menu

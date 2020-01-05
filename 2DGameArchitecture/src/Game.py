@@ -14,6 +14,8 @@ class Game(object):
         self.is_running = None  # check if the game is running : bool
         self.clock = None  # timer or clock getting from pygame :float
         self.delta_time = None  # delta time for the game : float
+        self.fps_text = None  # fps text show :font
+        self.fps_number = None
 
         self.scene_manager = None  # declaration of scene manager : SceneManager()
         self.play_scene = None  # declaration of play scene : PlayScene()
@@ -21,6 +23,7 @@ class Game(object):
 
         # Initialize the pygame(important to use pygame functions)
         pygame.init()
+        self.data = Data()  # initialize the game data
         # setting the game window
         # if the fullscreen is true -> window set as fullscreen
         if fullscreen is True:
@@ -29,7 +32,7 @@ class Game(object):
         else:
             self.window = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         pygame.display.set_caption(self.title)  # set the title for the game
-        print('Game is created')
+        print('[INFO] Game::Game is created')
 
     # start allow the game to initialize everything
     def start(self):
@@ -56,6 +59,8 @@ class Game(object):
     # function to handle all the events in the game
     def handle_events(self):
         self.delta_time = self.clock.tick(60) / 1000  # delta time in seconds : float
+        self.fps_number = int(self.delta_time * 1000)
+        self.fps_text = self.data.kenny_future_narrow_font.render('FPS ' + str(self.fps_number), True, BLACK)
         for event in pygame.event.get():  # check every events in pygame
             mouse_position = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:  # quit the game press x in window
@@ -83,6 +88,7 @@ class Game(object):
     def render(self):
         if self.scene_manager.is_empty() is False:
             self.scene_manager.render(self.window)  # draw image inside the scene
+        self.window.blit(self.fps_text, (10, 10))
         # self.player.render(self.window)
 
     # function to clear the screen (update the screen)
