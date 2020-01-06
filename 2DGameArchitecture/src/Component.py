@@ -124,20 +124,18 @@ class Image(Component):
         self.id = 4
         self.key = 'Image'
         self.image = None  # the image of the entity
+        self.center = None
 
     def start(self):
         pass
 
     def update(self, delta_time):
-        pass
-
-    def render(self, window, position: vector2, width, height):
         if self.image is not None:
-            if self.transform is not None:
-                self.image = pygame.transform.scale(self.image, (self.transform.width, self.transform.height))
-            window.blit(self.image, position)
-        else:
-            print('Image is None')
+            self.center = vector2(self.image.get_rect().w / 2, self.image.get_rect().h / 2)
+        # print(self.center.x)
+
+    def render(self, window, position, width, height):
+        window.blit(self.image, position)
 
     def set_image_path(self, path):
         self.image = pygame.image.load(path)
@@ -146,6 +144,12 @@ class Image(Component):
         # self.image = pygame.image.load(path)
         self.image = image
         # self.image.set_colorkey(BLACK)
+
+    def change_size(self):
+        if self.image is not None:
+            if self.transform is not None:
+                self.image = pygame.transform.scale(self.image.convert_alpha(),
+                                                    (self.transform.width, self.transform.height))
 
 
 class Movement(Component):

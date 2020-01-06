@@ -48,10 +48,11 @@ class Game(object):
         self.scene_manager = SceneManager()  # create scene manager
         self.play_scene = PlayScene(self.scene_manager)  # scene 0
         self.main_menu_scene = MainMenuScene(self.scene_manager)  # scene 1
+        self.splash_screen = SplashScreen(self.scene_manager) # scene 2
 
         self.scene_manager.push(self.play_scene)  # insert play scene inside scene manager
         self.scene_manager.push(self.main_menu_scene)  # insert menu scene inside the scene manager
-
+        self.scene_manager.push(self.splash_screen)
         # check if the scene manager is not empty
         if self.scene_manager.is_empty() is False:
             self.scene_manager.start()  # start the scene inside scene manager

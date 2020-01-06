@@ -23,6 +23,13 @@ def load_font_data(filename, size):
     return font_data  # font data : pygame.font.Font()
 
 
+def load_single_image_data(filename):
+    directory = path.dirname(__file__)  # src directory
+    image_directory = path.join(directory, '../resources/images')
+    image_data = pygame.image.load(path.join(image_directory, filename))
+    return image_data
+
+
 # class responsible to load and give all the data in the game
 class Data(object):
     def __init__(self):
@@ -140,22 +147,37 @@ class SplashScreen(Scene):
         super().__init__(scene_manager)
         self.name = "Splash Screen"
         self.tag = "Splash Screen"
-        self.entities_manager = []
+        self.entities_manager = EntitiesManager()
+        self.cbit_logo = Entity()
+        self.time_to_fade = 5  # 5 seconds before change scene
 
     def start(self):
-        pass
+        self.cbit_logo.add_component(Image())
+        self.cbit_logo.transform.position.x = (WIDTH / 2)-100
+        self.cbit_logo.transform.position.y = (HEIGHT / 2)-100
+        self.cbit_logo.get_component(Image()).image = load_single_image_data('cbit-py-logo.png')
+        self.entities_manager.add(self.cbit_logo)
 
     def handle_events(self, event, delta_time):
-        pass
+        self.entities_manager.handle_events(event, delta_time)
 
     def update(self, delta_time):
-        pass
+        self.entities_manager.update(delta_time)
 
     def render(self, window):
-        pass
+        window.fill(LIGHTGRAY)
+        self.entities_manager.render(window)
+        self.draw_center(window)
 
     def clear(self):
-        pass
+        pygame.display.flip()
+        #self.entities_manager.clear()
+
+
+    # draw the center on the window
+    def draw_center(self, window):
+        pygame.draw.line(window, PINK, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
+        pygame.draw.line(window, PINK, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
 
 
 # class main menu

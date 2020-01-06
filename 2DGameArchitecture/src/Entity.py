@@ -188,7 +188,11 @@ class EntitiesManager(object):
     def render(self, window):
         for entity in self.entities:
             entity.render(window)
-
+    '''
     def clear(self):
+        for entity in self.entities:
+            entity.clear()
+    '''
+    def clean(self):
         self.entities.clear()
         del self.entities[:]
