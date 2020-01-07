@@ -2,6 +2,7 @@ import pygame
 from os import path
 from src.Settings import *
 from src.Entity import *
+from src.Entity import Entity
 
 
 # this function is to load the image file so only load
@@ -23,17 +24,24 @@ def load_font_data(filename, size):
     return font_data  # font data : pygame.font.Font()
 
 
+# load only single image (not a spritesheet)
 def load_single_image_data(filename):
     directory = path.dirname(__file__)  # src directory
-    image_directory = path.join(directory, '../resources/images')
-    image_data = pygame.image.load(path.join(image_directory, filename))
-    return image_data
+    image_directory = path.join(directory, '../resources/images')  # resources /images
+    image_data = pygame.image.load(path.join(image_directory, filename))  # load the image
+    return image_data  # image data : image
+
+
+# function responsible draw center at the window
+def draw_center(window):
+    pygame.draw.line(window, PINK, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
+    pygame.draw.line(window, PINK, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
 
 
 # class responsible to load and give all the data in the game
 class Data(object):
     def __init__(self):
-        self.kenny_future_narrow_font = load_font_data('Kenney Future Narrow.ttf', 20)
+        self.kenny_future_narrow_font = load_font_data('Kenney Future Narrow.ttf', 20)  # load font
 
 
 # base class for all the scene
@@ -73,8 +81,50 @@ class Scene(object):
         pass
 
 
-# manage the scene inside the game
+# new scene manager
 class SceneManager(object):
+    def __init__(self):
+        self.scenes = {}  # dictionary of the scenes
+        self.current_scene = 0
+        self.key = 0
+
+    def add(self, scene):
+        self.scenes[self.key] = scene
+        self.key += 1
+
+    def load(self, current_scene):
+        self.current_scene = current_scene
+        # print('once')
+        self.scenes.get(self.current_scene).start()
+
+    # check if the scene manager is empty : boolean
+    def is_empty(self):
+        return self.scenes == {}
+
+    def start(self):
+        self.scenes.get(self.current_scene).start()
+
+    def handle_events(self, event, delta_time):
+        self.scenes[self.current_scene].handle_events(event, delta_time)
+
+    def handle_mouse_motions(self, event, delta_time, mouse_postion):
+        self.scenes[self.current_scene].handle_mouse_motions(event, delta_time, mouse_postion)
+
+    def handle_mouse_events(self, event, delta_time, mouse_position):
+        self.scenes[self.current_scene].handle_mouse_events(event, delta_time, mouse_position)
+
+    def update(self, delta_time):
+        self.scenes[self.current_scene].update(delta_time)
+
+    def render(self, window):
+        self.scenes[self.current_scene].render(window)
+
+    def clear(self):
+        self.scenes[self.current_scene].clear()
+
+
+# manage the scene inside the game
+class FSceneManager(object):
     def __init__(self):
         self.scenes = []  # list of the scenes inside the manager :stack
         self.current_scene_number = 0  # the current scene : int
@@ -161,25 +211,29 @@ class SplashScreen(Scene):
         self.entities_manager.handle_events(event, delta_time)
 
     def update(self, delta_time):
+        self.time_to_fade -= delta_time
+        if self.time_to_fade <= 0:
+            # TODO: change scene
+            self.scene_manager.load(1)
+
         self.entities_manager.update(delta_time)
 
     def render(self, window):
-        window.fill(LIGHTGRAY)
+        window.fill(WHITE)
         self.entities_manager.render(window)
-        self.draw_center(window)
+        # draw_center(window)
 
     def clear(self):
         pygame.display.flip()
-        #self.entities_manager.clear()
-
-
-    # draw the center on the window
-    def draw_center(self, window):
-        pygame.draw.line(window, PINK, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
-        pygame.draw.line(window, PINK, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+        # self.entities_manager.clear()
 
 
 # class main menu
+def draw_another_center(window):
+    pygame.draw.line(window, PINK, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
+    pygame.draw.line(window, PINK, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+
+
 class MainMenuScene(Scene):
     def __init__(self, scene_manager):
         super().__init__(scene_manager)
@@ -192,6 +246,7 @@ class MainMenuScene(Scene):
         self.all_sprites = pygame.sprite.Group()
 
     def start(self):
+
         self.play_button.add_component(Button())
         self.play_button.transform.position = WINDOW_CENTER
         self.play_button.get_component(Button()).scene_manager = self.scene_manager
@@ -235,6 +290,8 @@ class MainMenuScene(Scene):
                         if self.entities_manager[i].gameObject.id != self.entities_manager[j].gameObject.id:
                             self.entities_manager[i].get_component(Collider()).collision_detection(
                                 self.entities_manager[j].get_component(Collider()).rect)
+        if self.play_button.get_component(Button()).is_pressed:
+            self.scene_manager.load(2)
 
     # self.all_sprites.update(delta_time)
 
@@ -243,15 +300,10 @@ class MainMenuScene(Scene):
         self.all_sprites.draw(window)
         for entity in self.entities_manager:
             entity.render(window)
-        self.draw_center(window)
+        draw_center(window)
 
     def clear(self):
         pygame.display.flip()
-
-    # draw the center on the window
-    def draw_center(self, window):
-        pygame.draw.line(window, PINK, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
-        pygame.draw.line(window, PINK, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
 
 
 # class play scene
@@ -262,7 +314,7 @@ class PlayScene(Scene):
         self.tag = 'Play Scene'
         self.entities_manager = []
         self.player = Entity()
-        self.wall = Entity()
+        # self.wall = Entity()
         self.wall2 = Entity()
         self.sokoban_spritesheet = load_image_data('sokoban_spritesheet@2.png')
         self.all_sprites = pygame.sprite.Group()
@@ -285,7 +337,7 @@ class PlayScene(Scene):
         # self.player.add_component(Movement())
         # self.player.add_component(Movement())
         # self.player.get_component(Collider()).show_rect = False
-
+        '''
         self.wall.gameObject.tag = 'wall 1'
         self.wall.transform.position = (0, 0)
         self.wall.add_component(Collider())
@@ -299,7 +351,7 @@ class PlayScene(Scene):
         self.wall.get_component(Collider()).show_rect = False
         self.wall.get_component(Movement()).is_mouse = True
         # print(self.wall.get_component(Movement()).is_mouse)
-
+        '''
         self.wall2.gameObject.tag = 'wall 2'
         self.wall2.transform.position = (0, 0)
         self.wall2.add_component(Collider())
@@ -309,7 +361,7 @@ class PlayScene(Scene):
         # self.player.get_component(Movement()).transform = self.player.transform
 
         self.entities_manager.append(self.player)
-        self.entities_manager.append(self.wall)
+        # self.entities_manager.append(self.wall)
         self.entities_manager.append(self.wall2)
 
         for entity in self.entities_manager:

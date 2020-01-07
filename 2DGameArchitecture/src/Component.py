@@ -69,8 +69,8 @@ class Sprite(Component, pygame.sprite.Sprite):
         pass
 
     def update(self, delta_time):
-        self.rect.x = self.transform.position[0] - self.rect.width / 2
-        self.rect.y = self.transform.position[1] - self.rect.height / 2
+        self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
+        self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
         # self.rect.width = self.transform.width
         # self.rect.height = self.transform.height
 
@@ -81,8 +81,8 @@ class Sprite(Component, pygame.sprite.Sprite):
     def set_image(self, image):
         self.image = image
         self.rect = self.image.get_rect()
-        self.rect.x = self.transform.position[0] - self.rect.width / 2
-        self.rect.y = self.transform.position[1] - self.rect.height / 2
+        self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
+        self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
         # self.rect.width = self.transform.width
     # self.rect.height = self.transform.height
 
@@ -100,16 +100,17 @@ class Collider(Component):
         self.velocity = vector2(0, 0)
 
     def start(self):
-        if self.transform is not None:
-            self.rect = pygame.Rect(self.transform.position[0], self.transform.position[1], self.transform.height,
-                                    self.transform.height)
+        self.rect = pygame.Rect(self.entity.transform.position[0], self.entity.transform.position[1],
+                                self.entity.transform.height,
+                                self.entity.transform.height)
 
     def handle_events(self, event, delta_time):
         pass
 
     def update(self, delta_time):
-        self.rect = pygame.Rect(self.transform.position[0], self.transform.position[1], self.transform.height,
-                                self.transform.height)
+        self.rect = pygame.Rect(self.entity.transform.position[0], self.entity.transform.position[1],
+                                self.entity.transform.height,
+                                self.entity.transform.height)
 
     def render(self, window, position: vector2, width, height):
         if self.show_rect is True:
@@ -138,7 +139,7 @@ class Image(Component):
         self.position = vector2(self.entity.transform.position[0] - self.center[0],
                                 self.entity.transform.position[1] - self.center[1])
         # self.position[1] = self.entity.transform.position[1] - self.center[1]
-        #print(self.entity.transform.position.x)
+        # print(self.entity.transform.position.x)
 
     def render(self, window, position, width, height):
         window.blit(self.image, self.position)
@@ -215,7 +216,7 @@ class Movement(Component):
         # self.velocity += self.acceleration
         # self.transform.position += self.velocity
         # self.transform.position += self.velocity * self.speed * delta_time
-        self.transform.position += vector2(self.horizontal, self.vertical) * self.speed * delta_time
+        self.entity.transform.position += vector2(self.horizontal, self.vertical) * self.speed * delta_time
 
     def move_using_mouse(self, event, delta_time, transform, mouse_position):
 
@@ -240,6 +241,7 @@ class Button(Component):
         self.centerY = 0
         self.scene_manager = None
         self.isHover = False
+        self.is_pressed = False
 
     def start(self):
         if self.transform is not None:
@@ -256,11 +258,13 @@ class Button(Component):
 
     def handle_mouse_events(self, event, delta_time, mouse_position):
         if self.is_hover(mouse_position):
-            print('Should change scene')
+            self.is_pressed = True
+        else:
+            self.is_pressed = False
 
     def update(self, delta_time):
-        self.centerX = self.transform.position[0] - self.width / 2
-        self.centerY = self.transform.position[1] - self.height / 2
+        self.centerX = self.entity.transform.position[0] - self.width / 2
+        self.centerY = self.entity.transform.position[1] - self.height / 2
         self.rect = pygame.Rect(self.centerX, self.centerY, self.width,
                                 self.height)
 
@@ -296,9 +300,9 @@ class Text(Component):
     def start(self):
         self.txt = self.font.render(self.text, True, self.color)
         self.width, self.height = self.font.size(self.text)
-        if self.transform is not None:
-            self.centerX = self.transform.position[0] - self.width / 2
-            self.centerY = self.transform.position[1] - self.height / 2
+
+        self.centerX = self.entity.transform.position[0] - self.width / 2
+        self.centerY = self.entity.transform.position[1] - self.height / 2
 
     def handle_events(self, event, delta_time):
         pass
@@ -312,8 +316,8 @@ class Text(Component):
     def update(self, delta_time):
         self.txt = self.font.render(self.text, True, self.color)
         self.width, self.height = self.font.size('Text')
-        self.centerX = self.transform.position[0] - self.width / 2
-        self.centerY = self.transform.position[1] - self.height / 2
+        self.centerX = self.entity.transform.position[0] - self.width / 2
+        self.centerY = self.entity.transform.position[1] - self.height / 2
 
     def render(self, window, position: vector2, width, height):
         window.blit(self.txt, (self.centerX, self.centerY))

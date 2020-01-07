@@ -17,18 +17,19 @@ class Game(object):
         self.fps_text = None  # fps text show :font
         self.fps_number = None
 
+        # scene properties
         self.scene_manager = None  # declaration of scene manager : SceneManager()
         self.play_scene = None  # declaration of play scene : PlayScene()
         self.main_menu_scene = None  # declaration of main menu scene : MainMenuScene()
+        self.splash_screen = None  # declaration of splash screen scene : SplashScreenScene()
 
         # Initialize the pygame(important to use pygame functions)
-        pygame.init()
+        pygame.init()  # initialize pygame
         self.data = Data()  # initialize the game data
         # setting the game window
         # if the fullscreen is true -> window set as fullscreen
         if fullscreen is True:
             self.window = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
-
         else:
             self.window = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         pygame.display.set_caption(self.title)  # set the title for the game
@@ -46,13 +47,15 @@ class Game(object):
         pygame.key.set_repeat(100, 100)
 
         self.scene_manager = SceneManager()  # create scene manager
-        self.play_scene = PlayScene(self.scene_manager)  # scene 0
-        self.main_menu_scene = MainMenuScene(self.scene_manager)  # scene 1
-        self.splash_screen = SplashScreen(self.scene_manager) # scene 2
+        self.play_scene = PlayScene(self.scene_manager)  # create play scene
+        self.main_menu_scene = MainMenuScene(self.scene_manager)  # create main menu scene
+        self.splash_screen = SplashScreen(self.scene_manager)  # create splash screen scene
 
-        self.scene_manager.push(self.play_scene)  # insert play scene inside scene manager
-        self.scene_manager.push(self.main_menu_scene)  # insert menu scene inside the scene manager
-        self.scene_manager.push(self.splash_screen)
+        self.scene_manager.add(self.splash_screen)  # insert splash screen first
+        self.scene_manager.add(self.main_menu_scene)  # insert menu scene inside the scene manager
+        self.scene_manager.add(self.play_scene)  # insert play scene inside scene manager
+
+        # print(self.scene_manager.scenes)
         # check if the scene manager is not empty
         if self.scene_manager.is_empty() is False:
             self.scene_manager.start()  # start the scene inside scene manager
