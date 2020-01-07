@@ -153,8 +153,7 @@ class SplashScreen(Scene):
 
     def start(self):
         self.cbit_logo.add_component(Image())
-        self.cbit_logo.transform.position.x = (WIDTH / 2)-100
-        self.cbit_logo.transform.position.y = (HEIGHT / 2)-100
+        self.cbit_logo.transform.position = WINDOW_CENTER
         self.cbit_logo.get_component(Image()).image = load_single_image_data('cbit-py-logo.png')
         self.entities_manager.add(self.cbit_logo)
 

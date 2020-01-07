@@ -77,8 +77,9 @@ class Entity(object):
         if key in self.components.keys():
             print('[INFO] Entity::78:: Component already exist inside the Entity!, cannot add Component')
         else:
+            component.entity = self
             self.components[key] = component  # add the component in the list of components
-            self.process_all_components(key)  # process all the components that been added to the entity
+            # self.process_all_components(key)  # process all the components that been added to the entity
 
     # get the component from the entity
     def get_component(self, component: Component):
@@ -188,11 +189,13 @@ class EntitiesManager(object):
     def render(self, window):
         for entity in self.entities:
             entity.render(window)
+
     '''
     def clear(self):
         for entity in self.entities:
             entity.clear()
     '''
+
     def clean(self):
         self.entities.clear()
         del self.entities[:]

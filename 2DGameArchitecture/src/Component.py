@@ -13,8 +13,10 @@ class Component(object):
     def __init__(self):
         self.id = 0  # component identifier : int
         self.key = 'None'  # component key identifier : str
+        self.entity: Entity = None
         self.transform = None  # transform component
         self.gameObject = None  # gameObject transform
+        self.position: vector2 = None
 
     def start(self):
         pass
@@ -133,9 +135,13 @@ class Image(Component):
         if self.image is not None:
             self.center = vector2(self.image.get_rect().w / 2, self.image.get_rect().h / 2)
         # print(self.center.x)
+        self.position = vector2(self.entity.transform.position[0] - self.center[0],
+                                self.entity.transform.position[1] - self.center[1])
+        # self.position[1] = self.entity.transform.position[1] - self.center[1]
+        #print(self.entity.transform.position.x)
 
     def render(self, window, position, width, height):
-        window.blit(self.image, position)
+        window.blit(self.image, self.position)
 
     def set_image_path(self, path):
         self.image = pygame.image.load(path)
