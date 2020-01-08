@@ -13,7 +13,7 @@ class Component(object):
     def __init__(self):
         self.id = 0  # component identifier : int
         self.key = 'None'  # component key identifier : str
-        self.entity: Entity = None
+        self.entity: Entity = None # entity where this component attach
         self.transform = None  # transform component
         self.gameObject = None  # gameObject transform
         self.position: vector2 = None
@@ -84,7 +84,14 @@ class Sprite(Component, pygame.sprite.Sprite):
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
         self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
         # self.rect.width = self.transform.width
+
     # self.rect.height = self.transform.height
+
+    def set_default_image(self, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.entity.transform.width = self.image.get_rect().w
+        self.entity.transform.height = self.image.get_rect().h
 
 
 class Collider(Component):

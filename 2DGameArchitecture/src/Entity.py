@@ -5,24 +5,6 @@ from src.Component import *
 from src.Settings import *
 
 
-# class sprite sheet
-class SpriteSheet(object):
-    # utility class for loading and passing images
-    def __init__(self, filename):
-        # take the image as the sprite sheet : pygame.image.load()
-        # If you want to change a 24-bit image to 32-bit or vice versa, use the .convert_alpha() method.
-        # For vice-versa, use the .convert() method which will overlay any per-pixel alpha values over black.
-        self.spritesheet = pygame.image.load(filename).convert()
-
-    # get the single image from the sprite sheet
-    def get_image(self, x, y, width, height):
-        # grab an image out of a larger spritesheet
-        image = pygame.Surface((width, height))  # get the image surface
-        image.blit(self.spritesheet, (0, 0), (x, y, width, height))  # bilt only part of the image
-        image = pygame.transform.scale(image, (width // 2, height // 2))  # scale the image to half size
-        return image  # return image
-
-
 # this function will generate random id consist of str and int
 # need this for collider component
 def generate_id():
@@ -37,6 +19,24 @@ def generate_id():
 vector2 = pygame.math.Vector2
 
 
+# class sprite sheet
+class SpriteSheet(object):
+    # utility class for loading and passing images
+    def __init__(self, filename):
+        # take the image as the sprite sheet : pygame.image.load()
+        # If you want to change a 24-bit image to 32-bit or vice versa, use the .convert_alpha() method.
+        # For vice-versa, use the .convert() method which will overlay any per-pixel alpha values over black.
+        self.spritesheet = pygame.image.load(filename).convert_alpha()
+
+    # get the single image from the sprite sheet
+    def get_image(self, x, y, width, height):
+        # grab an image out of a larger spritesheet
+        image = pygame.Surface((width, height))  # get the image surface
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))  # bilt only part of the image
+        # image = pygame.transform.scale(image, (width // 2, height // 2))  # scale the image to half size
+        return image  # return image
+
+
 # class transform responsible to determine entity position and size
 # very important component
 class Transform(object):
@@ -45,13 +45,8 @@ class Transform(object):
         self.width = width  # width of the entity : int
         self.height = height  # height of the entity : int
         self.scale = 1
-        self.size = vector2(self.width * self.scale, self.height * self.scale)
-        self.center = vector2(self.size.x / 2 + self.position.x, self.size.y / 2 + self.position.y)
-        self.marker_image = pygame.image.load('../resources/images/marker2.png')
-        self.marker_image_position = vector2((self.position.x + self.width) / 2, self.position.y)
-
-    def update(self):
-        self.marker_image_position = vector2((self.position[0] + self.width) / 2, self.position[1])
+        self.size = (self.width * self.scale, self.height * self.scale)
+        self.center = (self.size[0] / 2 + self.position.x, self.size[1] / 2 + self.position.y)
 
 
 # class or component gameobject to determine the entity name and existence
@@ -77,7 +72,7 @@ class Entity(object):
         if key in self.components.keys():
             print('[INFO] Entity::78:: Component already exist inside the Entity!, cannot add Component')
         else:
-            component.entity = self
+            component.entity = self  # make the component entity this entity
             self.components[key] = component  # add the component in the list of components
             # self.process_all_components(key)  # process all the components that been added to the entity
 
@@ -98,35 +93,6 @@ class Entity(object):
             return True
         else:
             return False
-
-    # this is hidden function to make all the component connecting
-    # with each other, making this as very important function
-    def process_all_components(self, key):
-        for key in self.components:
-            self.components.get(key).transform = self.transform  # update components transform
-            self.components.get(key).gameObject = self.gameObject  # update components game object
-        '''
-        if key == 'Collider':
-            self.components.get(key).transform = self.transform
-            self.components.get(key).gameObject = self.gameObject
-        if key == 'Sprite':
-            self.components.get(key).transform = self.transform
-        if key == 'Image':
-            self.components.get(key).transform = self.transform
-        if key == 'Movement':
-            self.components.get(key).transform = self.transform
-        if key == 'Button':
-            self.components.get(key).transform = self.transform
-       
-        for key in self.components:
-            if key == 'Collider':
-                self.components.get(key).transform = self.transform
-                self.components.get(key).gameObject = self.gameObject
-            if key == 'Image':
-                self.components.get(key).transform = self.transform
-            if key == 'Movement':
-                self.components.get(key).transform = self.transform
-        '''
 
     # function of start the components for the entity
     def start(self):
@@ -149,53 +115,68 @@ class Entity(object):
     # function to update all the process of the entity
     def update(self, delta_time):
         # update all the components attach to the entity
-        self.transform.update()
         for component in self.components.values():
             component.update(delta_time)
 
     # function to render image for the entity
     def render(self, window):
-
         for component in self.components.values():
             component.render(window, self.transform.position, self.transform.width, self.transform.height)
-        # print(self.transform.marker_image_position)
-        # window.blit(self.transform.marker_image, self.transform.marker_image_position)
 
 
+# class responsible to manage all entities
 class EntitiesManager(object):
     def __init__(self):
-        self.entities = []
+        self.entities = []  # list of entities
+        self.sprites_group = pygame.sprite.Group()  # get the sprite group
 
+    # add entity into the entities
     def add(self, entity: Entity):
-        self.entities.append(entity)
-        entity.start()
+        self.entities.append(entity)  # add entity inside the entities
+        entity.start()  # start the entity
+        if entity.has_component(Collider()) is True:
+            print(entity.gameObject.id)
+        if entity.has_component(Sprite()) is True:
+            self.sprites_group.add(entity.get_component(Sprite()))
 
+    # function to handle events for all the entities
     def handle_events(self, event, delta_time):
         for entity in self.entities:
             entity.handle_events(event, delta_time)
 
+    # function to handle mouse motions for all the entities
     def handle_mouse_motions(self, event, delta_time, mouse_position):
         for entity in self.entities:
             entity.handle_mouse_motions(event, delta_time, mouse_position)
 
+    # function to handle mouse events for all the entities
     def handle_mouse_events(self, event, delta_time, mouse_position):
         for entity in self.entities:
             entity.handle_mouse_events(event, delta_time, mouse_position)
 
+    # function to update all the entities
     def update(self, delta_time):
         for entity in self.entities:
             entity.update(delta_time)
+        # loop to detect collision
+        for i in range(len(self.entities)):
+            if self.entities[i].has_component(Collider()):
+                # print(self.entities_manager[i].has_component(Collider()))
+                for j in range(len(self.entities)):
+                    if self.entities[j].has_component(Collider()):
+                        if self.entities[i].gameObject.id != self.entities[j].gameObject.id:
+                            self.entities[i].get_component(Collider()).collision_detection(
+                                self.entities[j].get_component(Collider()).rect)
+        # update sprite group
+        self.sprites_group.update(delta_time)
 
+    # function to render all the entities
     def render(self, window):
+        self.sprites_group.draw(window)
         for entity in self.entities:
             entity.render(window)
 
-    '''
-    def clear(self):
-        for entity in self.entities:
-            entity.clear()
-    '''
-
+    # function to clear and remove all the entities
     def clean(self):
         self.entities.clear()
         del self.entities[:]

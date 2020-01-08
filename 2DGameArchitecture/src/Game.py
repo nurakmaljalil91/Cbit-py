@@ -55,7 +55,6 @@ class Game(object):
         self.scene_manager.add(self.main_menu_scene)  # insert menu scene inside the scene manager
         self.scene_manager.add(self.play_scene)  # insert play scene inside scene manager
 
-        # print(self.scene_manager.scenes)
         # check if the scene manager is not empty
         if self.scene_manager.is_empty() is False:
             self.scene_manager.start()  # start the scene inside scene manager
@@ -92,16 +91,14 @@ class Game(object):
     def render(self):
         if self.scene_manager.is_empty() is False:
             self.scene_manager.render(self.window)  # draw image inside the scene
-        self.window.blit(self.fps_text, (10, 10))
-        # self.player.render(self.window)
+        self.window.blit(self.fps_text, (10, 10))  # draw fps text
 
     # function to clear the screen (update the screen)
+    # do not make this static
     def clear(self):
-        if self.scene_manager.is_empty() is False:
-            self.scene_manager.clear()  # clear the scene screen
+        pygame.display.flip()
         pygame.display.update()
 
-        # function to quit the game
-
+    # function to quit the game
     def quit(self):
         pygame.quit()  # quit the game

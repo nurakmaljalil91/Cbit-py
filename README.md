@@ -1,5 +1,14 @@
 # 2D Python Game Engine 2019
+name    : Cbit-py
 
+version : 1.0.1
+## TODO
+- ui class
+- read xml file
+- sprite animation
+- fix collider
+- tilemap class
+- physic class
 ## main class
 ### main function
 - creating the game  
