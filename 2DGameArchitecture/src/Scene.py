@@ -3,6 +3,7 @@ from os import path
 from src.Settings import *
 from src.Entity import *
 from src.Entity import Entity
+from src.Map import *
 
 
 # this function is to load the image file so only load
@@ -32,6 +33,14 @@ def load_single_image_data(filename):
     return image_data  # image data : image
 
 
+# load map file
+def load_map_data(filename):
+    directory = path.dirname(__file__)  # src directory
+    map_directory = path.join(directory, '../resources/tilemaps')
+    map_data = TiledMap(path.join(map_directory, filename))
+    return map_data
+
+
 # function responsible draw center at the window
 def draw_center(window):
     pygame.draw.line(window, PINK, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
@@ -49,6 +58,9 @@ def draw_grid(window):
 class Data(object):
     def __init__(self):
         self.kenny_future_narrow_font = load_font_data('Kenney Future Narrow.ttf', 20)  # load font
+        self.play_map = load_map_data('play_scene.tmx')
+        self.play_map_image = self.play_map.make_map()
+        self.play_map_rect = self.play_map_image.get_rect()
 
 
 # base class for all the scene
@@ -206,7 +218,7 @@ class MainMenuScene(Scene):
     def update(self, delta_time):
         self.entities_manager.update(delta_time)
         if self.play_button.get_component(Button()).is_pressed:
-            self.scene_manager.load(2) # change scene
+            self.scene_manager.load(2)  # change scene
 
     def render(self, window):
         window.fill(LIGHTGRAY)
@@ -221,10 +233,12 @@ class PlayScene(Scene):
         self.name = 'Play Scene'
         self.tag = 'Play Scene'
         self.entities_manager = EntitiesManager()
+        self.data = Data()
         self.player = Entity()
         self.wall2 = Entity()
         self.sokoban_spritesheet = load_sprite_data('sokoban_spritesheet@2.png')
         self.all_sprites = pygame.sprite.Group()
+        self.camera = Camera(self.data.play_map.width,self.data.play_map.height)
 
     def start(self):
         self.player.transform.position = (400, 400)
@@ -255,8 +269,10 @@ class PlayScene(Scene):
 
     def update(self, delta_time):
         self.entities_manager.update(delta_time)
+        self.camera.update(self.player)
 
     def render(self, window):
         window.fill(LIGHTBLUE)
+        window.blit(self.data.play_map_image, (0, 0))
         self.entities_manager.render(window)
-        draw_grid(window)
+        # draw_grid(window)

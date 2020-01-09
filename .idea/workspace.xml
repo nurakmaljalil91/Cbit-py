@@ -2,38 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ab5cb01-1d36-4cc8-b57e-82c0633f0b10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/user.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/blueSheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/blueSheet.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/greenSheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/greenSheet.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/greySheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/greySheet.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/redSheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/redSheet.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/sokoban_spritesheet@2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/sokoban_spritesheet@2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/yellowSheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/yellowSheet.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/sokoban_spritesheet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/spritesheets/sokoban_spritesheet.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/tilemaps/play_scene.tmx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/tilemaps/sokoban_tilesheet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/tilemaps/sokoban_tilesheet@2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/resources/tilemaps/sokoban_tilesheet@2.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2DGameArchitecture/src/Map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2DGameArchitecture/dev/record.log" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameArchitecture/dev/record.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/blueSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/blueSheet.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/greenSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/greenSheet.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/greySheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/greySheet.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/redSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/redSheet.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/sokoban_spritesheet@2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/sokoban_spritesheet@2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/yellowSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/resources/images/yellowSheet.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/2DGameArchitecture/src/Component.py" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameArchitecture/src/Component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/src/Entity.py" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameArchitecture/src/Entity.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2DGameArchitecture/src/Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameArchitecture/src/Game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2DGameArchitecture/src/Scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameArchitecture/src/Scene.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2DGameArchitecture/src/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameArchitecture/src/Settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +43,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -142,25 +122,25 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="449" y="161" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578506078221" />
-    <state width="1515" height="201" key="GridCell.Tab.0.bottom" timestamp="1578509208827">
+    <state width="1515" height="255" key="GridCell.Tab.0.bottom" timestamp="1578561581606">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="201" key="GridCell.Tab.0.bottom/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578509208827" />
+    <state width="1515" height="255" key="GridCell.Tab.0.bottom/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578561581606" />
     <state width="1515" height="277" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1578397880810" />
-    <state width="1515" height="201" key="GridCell.Tab.0.center" timestamp="1578509208827">
+    <state width="1515" height="255" key="GridCell.Tab.0.center" timestamp="1578561581606">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="201" key="GridCell.Tab.0.center/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578509208827" />
+    <state width="1515" height="255" key="GridCell.Tab.0.center/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578561581606" />
     <state width="1515" height="277" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1578397880810" />
-    <state width="1515" height="201" key="GridCell.Tab.0.left" timestamp="1578509208827">
+    <state width="1515" height="255" key="GridCell.Tab.0.left" timestamp="1578561581606">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="201" key="GridCell.Tab.0.left/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578509208827" />
+    <state width="1515" height="255" key="GridCell.Tab.0.left/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578561581606" />
     <state width="1515" height="277" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1578397880810" />
-    <state width="1515" height="201" key="GridCell.Tab.0.right" timestamp="1578509208827">
+    <state width="1515" height="255" key="GridCell.Tab.0.right" timestamp="1578561581606">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="201" key="GridCell.Tab.0.right/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578509208827" />
+    <state width="1515" height="255" key="GridCell.Tab.0.right/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578561581606" />
     <state width="1515" height="277" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1578397880810" />
     <state width="1515" height="277" key="GridCell.Tab.1.bottom" timestamp="1578506084622">
       <screen x="0" y="0" width="1536" height="864" />
@@ -182,14 +162,14 @@
     </state>
     <state width="1515" height="277" key="GridCell.Tab.1.right/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578506084622" />
     <state width="1515" height="277" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1578397883574" />
-    <state x="277" y="76" key="SettingsEditor" timestamp="1578214526203">
+    <state x="277" y="76" key="SettingsEditor" timestamp="1578553962157">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="277" y="76" key="SettingsEditor/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578214526203" />
-    <state x="465" y="258" key="com.intellij.ide.util.TipDialog" timestamp="1578506127457">
+    <state x="277" y="76" key="SettingsEditor/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578553962157" />
+    <state x="465" y="258" key="com.intellij.ide.util.TipDialog" timestamp="1578553885860">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="465" y="258" key="com.intellij.ide.util.TipDialog/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578506127457" />
+    <state x="465" y="258" key="com.intellij.ide.util.TipDialog/0.0.1536.864/1920.0.1024.600@0.0.1536.864" timestamp="1578553885860" />
     <state x="465" y="258" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1578397427242" />
     <state x="410" y="158" width="700" height="530" key="recent.locations.popup" timestamp="1578502886988">
       <screen x="0" y="0" width="1536" height="864" />

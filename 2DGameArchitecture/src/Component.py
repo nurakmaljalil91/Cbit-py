@@ -13,10 +13,7 @@ class Component(object):
     def __init__(self):
         self.id = 0  # component identifier : int
         self.key = 'None'  # component key identifier : str
-        self.entity: Entity = None # entity where this component attach
-        self.transform = None  # transform component
-        self.gameObject = None  # gameObject transform
-        self.position: vector2 = None
+        self.entity: Entity = None  # entity where this component attach
 
     def start(self):
         pass
@@ -71,11 +68,8 @@ class Sprite(Component, pygame.sprite.Sprite):
     def update(self, delta_time):
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
         self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
-        # self.rect.width = self.transform.width
-        # self.rect.height = self.transform.height
 
     def render(self, window, position: vector2, width, height):
-        # pygame.draw.rect(window, BLUE, (position.x, position.y, width, height), 2)
         pass
 
     def set_image(self, image):
@@ -83,9 +77,6 @@ class Sprite(Component, pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
         self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
-        # self.rect.width = self.transform.width
-
-    # self.rect.height = self.transform.height
 
     def set_default_image(self, image):
         self.image = image
@@ -108,7 +99,7 @@ class Collider(Component):
 
     def start(self):
         self.rect = pygame.Rect(self.entity.transform.position[0], self.entity.transform.position[1],
-                                self.entity.transform.height,
+                                self.entity.transform.width,
                                 self.entity.transform.height)
 
     def handle_events(self, event, delta_time):
@@ -116,7 +107,7 @@ class Collider(Component):
 
     def update(self, delta_time):
         self.rect = pygame.Rect(self.entity.transform.position[0], self.entity.transform.position[1],
-                                self.entity.transform.height,
+                                self.entity.transform.width,
                                 self.entity.transform.height)
 
     def render(self, window, position: vector2, width, height):

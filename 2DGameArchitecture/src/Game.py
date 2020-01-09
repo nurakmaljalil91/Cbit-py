@@ -25,7 +25,7 @@ class Game(object):
 
         # Initialize the pygame(important to use pygame functions)
         pygame.init()  # initialize pygame
-        self.data = Data()  # initialize the game data
+
         # setting the game window
         # if the fullscreen is true -> window set as fullscreen
         if fullscreen is True:
@@ -39,7 +39,7 @@ class Game(object):
     def start(self):
         # starting the game
         self.is_running = True
-
+        self.data = Data()  # initialize the game data
         # starting the clock
         self.clock = pygame.time.Clock()
 
