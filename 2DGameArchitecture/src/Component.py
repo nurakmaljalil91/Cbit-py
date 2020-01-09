@@ -30,26 +30,26 @@ class Component(object):
     def update(self, delta_time):
         pass
 
-    def render(self, window, position: vector2, width, height):
+    def render(self, window):
         pass
 
 
 # health component
-class Health(Component):
-    def __init__(self, hp=None):
+class Rect(Component):
+    def __init__(self):
         super().__init__()
-        self.hp = hp  # health point of the player : int
         self.id = 1  # component identifier : int
-        self.key = 'Health'
+        self.key = 'Rect'
+        self.width = TILESIZE
+        self.height = TILESIZE
 
     def start(self):
         pass
 
     def update(self, delta_time):
-        pass
-
-    def get_damage(self, damage):
-        self.hp -= damage
+        center_x = (self.entity.transform.position[0] - self.width) / 2
+        center_y = (self.entity.transform.position[1] - self.height) / 2
+        self.center = (center_x, center_y)
 
 
 class Sprite(Component, pygame.sprite.Sprite):
@@ -69,7 +69,7 @@ class Sprite(Component, pygame.sprite.Sprite):
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
         self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
 
-    def render(self, window, position: vector2, width, height):
+    def render(self, window):
         pass
 
     def set_image(self, image):
@@ -110,7 +110,7 @@ class Collider(Component):
                                 self.entity.transform.width,
                                 self.entity.transform.height)
 
-    def render(self, window, position: vector2, width, height):
+    def render(self, window):
         if self.show_rect is True:
             pygame.draw.rect(window, BLUE, self.rect)
 

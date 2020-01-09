@@ -40,30 +40,28 @@ class SpriteSheet(object):
 # class transform responsible to determine entity position and size
 # very important component
 class Transform(object):
-    def __init__(self, position: vector2, width, height):
-        self.position = position  # position of the entity : vector2(x,y)
-        self.width = width  # width of the entity : int
-        self.height = height  # height of the entity : int
-        self.scale = 1
-        self.size = (self.width * self.scale, self.height * self.scale)
-        self.center = (self.size[0] / 2 + self.position.x, self.size[1] / 2 + self.position.y)
+    def __init__(self):
+        self.position = vector2(0, 0)  # position of the entity : vector2(x,y)
+        self.scale = vector2(0, 0)
+        self.rotation = vector2(0, 0)
 
 
 # class or component gameobject to determine the entity name and existence
 class GameObject(object):
-    def __init__(self, name, tag):
-        self.name = name  # name : str
-        self.tag = tag  # name : tag
+    def __init__(self):
+        self.name = ''  # name : str
+        self.tag = ''  # tag : str
         self.id = generate_id()  # generate random id
-        self.active_self = True  # check if active self : boolean
+        self.active = True  # check if active self : boolean
 
 
 # class entity
 class Entity(object):
     def __init__(self):
-        self.gameObject = GameObject('null', 'null')  # add component game object
-        self.transform = Transform(vector2(0.0, 0.0), 64, 64)  # add component transform
+        self.gameObject = GameObject()  # add component game object
+        self.transform = Transform()  # add component transform
         self.components = {}  # list of the components in the entity : dictionary{key:value}
+        self.rect = pygame.Rect(self.transform.position[0], self.transform.position[1], TILESIZE, TILESIZE)
 
     # add component to the entity
     def add_component(self, component: Component):
@@ -101,27 +99,32 @@ class Entity(object):
 
     # function to handle events in the components for the entity
     def handle_events(self, event, delta_time):
-        for component in self.components.values():
-            component.handle_events(event, delta_time)
+        if self.gameObject.active:
+            for component in self.components.values():
+                component.handle_events(event, delta_time)
 
     def handle_mouse_motions(self, event, delta_time, mouse_position):
-        for component in self.components.values():
-            component.handle_mouse_motions(event, delta_time, mouse_position)
+        if self.gameObject.active:
+            for component in self.components.values():
+                component.handle_mouse_motions(event, delta_time, mouse_position)
 
     def handle_mouse_events(self, event, delta_time, mouse_position):
-        for component in self.components.values():
-            component.handle_mouse_events(event, delta_time, mouse_position)
+        if self.gameObject.active:
+            for component in self.components.values():
+                component.handle_mouse_events(event, delta_time, mouse_position)
 
     # function to update all the process of the entity
     def update(self, delta_time):
-        # update all the components attach to the entity
-        for component in self.components.values():
-            component.update(delta_time)
+        if self.gameObject.active:
+            # update all the components attach to the entity
+            for component in self.components.values():
+                component.update(delta_time)
 
     # function to render image for the entity
     def render(self, window):
-        for component in self.components.values():
-            component.render(window, self.transform.position, self.transform.width, self.transform.height)
+        if self.gameObject.active:
+            for component in self.components.values():
+                component.render(window)
 
 
 # class responsible to manage all entities
