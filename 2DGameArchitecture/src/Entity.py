@@ -137,16 +137,6 @@ class EntitiesManager(object):
         for entity in self.entities:
             entity.handle_events(event, delta_time)
 
-    # function to handle mouse motions for all the entities
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        for entity in self.entities:
-            entity.handle_mouse_motions(event, delta_time, mouse_position)
-
-    # function to handle mouse events for all the entities
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        for entity in self.entities:
-            entity.handle_mouse_events(event, delta_time, mouse_position)
-
     # function to update all the entities
     def update(self, delta_time):
         for entity in self.entities:

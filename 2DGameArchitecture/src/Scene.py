@@ -260,30 +260,37 @@ class TestScene(Scene):
         self.name = "Test Scene"
         self.tag = "Test Scene"
         self.entities_manager = EntitiesManager()
-        self.canvas = Canvas(WIDTH / 2, HEIGHT / 2, 100, 100)
-        self.label = Label(300, 300, 100, 100, self.canvas)
+        self.canvas = Canvas(WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT)
+        self.label = Label(WIDTH / 2, HEIGHT / 2, 100, 100, self.canvas)
+        self.text = Text(WIDTH / 2, HEIGHT / 2, self.label, 'New Game')
+        self.image = Image(100, 100, self.canvas, load_single_image_data('cbit-py-logo.png'))
+        self.button = Button(300, 20, 100, 20, self.canvas)
+        self.ui_holder = CbitUIHolder()
         self.data = Data()
 
     # scene  start method
     def start(self):
-        self.canvas.font = self.data.kenny_future_narrow_font
-        self.label.font = self.data.kenny_future_narrow_font
-        self.label.set_text('this is testing so do not make fun of me')
+        self.canvas.set_font(self.data.kenny_future_narrow_font)
+        self.label.set_font(self.data.kenny_future_narrow_font)
+        self.text.set_font(self.data.kenny_future_narrow_font)
+
+        self.ui_holder.add(self.canvas)
+        self.ui_holder.add(self.label)
+        self.ui_holder.add(self.text)
+        self.ui_holder.add(self.image)
+        self.ui_holder.add(self.button)
 
     # scene handle events method
     def handle_events(self, event, delta_time):
-        self.canvas.handle_events(event, delta_time)
-        self.label.handle_events(event, delta_time)
+        self.ui_holder.handle_events(event, delta_time)
 
     #  scene to update
     def update(self, delta_time):
-        self.canvas.update(delta_time)
-        self.label.update(delta_time)
+        self.ui_holder.update(delta_time)
 
     #  scene to render
     def render(self, window):
         window.fill(LIGHTGRAY)
         # draw_grid(window, 0.5, BLUE)
         # draw_grid(window, 1, RED)
-        self.canvas.render(window)
-        self.label.render(window)
+        self.ui_holder.render(window)
