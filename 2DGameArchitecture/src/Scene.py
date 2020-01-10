@@ -4,6 +4,7 @@ from src.Settings import *
 from src.Entity import *
 from src.Entity import Entity
 from src.Map import *
+from src.CbitUI import *
 
 
 # this function is to load the image file so only load
@@ -47,11 +48,11 @@ def draw_center(window):
     pygame.draw.line(window, PINK, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
 
 
-def draw_grid(window):
-    for x in range(0, WIDTH, TILESIZE):
-        pygame.draw.line(window, LIGHTGRAY, (x, 0), (x, HEIGHT))
-    for y in range(0, HEIGHT, TILESIZE):
-        pygame.draw.line(window, LIGHTGRAY, (0, y), (WIDTH, y))
+def draw_grid(window, scale, color):
+    for x in range(0, WIDTH, int(TILESIZE * scale)):
+        pygame.draw.line(window, color, (x, 0), (x, HEIGHT))
+    for y in range(0, HEIGHT, int(TILESIZE * scale)):
+        pygame.draw.line(window, color, (0, y), (WIDTH, y))
 
 
 # class responsible to load and give all the data in the game
@@ -77,14 +78,6 @@ class Scene(object):
 
     # scene handle events method
     def handle_events(self, event, delta_time):
-        pass
-
-    # base scene handle mouse motions
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        pass
-
-    # base scene to handle mouse events
-    def handle_mouse_events(self, event, delta_time, mouse_position):
         pass
 
     # base scene to update
@@ -131,12 +124,6 @@ class SceneManager(object):
 
     def handle_events(self, event, delta_time):
         self.scenes[self.current_scene].handle_events(event, delta_time)
-
-    def handle_mouse_motions(self, event, delta_time, mouse_postion):
-        self.scenes[self.current_scene].handle_mouse_motions(event, delta_time, mouse_postion)
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        self.scenes[self.current_scene].handle_mouse_events(event, delta_time, mouse_position)
 
     def update(self, delta_time):
         self.scenes[self.current_scene].update(delta_time)
@@ -209,12 +196,6 @@ class MainMenuScene(Scene):
     def handle_events(self, event, delta_time):
         self.entities_manager.handle_events(event, delta_time)
 
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        self.entities_manager.handle_mouse_motions(event, delta_time, mouse_position)
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        self.entities_manager.handle_mouse_events(event, delta_time, mouse_position)
-
     def update(self, delta_time):
         self.entities_manager.update(delta_time)
         if self.play_button.get_component(Button()).is_pressed:
@@ -238,7 +219,7 @@ class PlayScene(Scene):
         self.wall2 = Entity()
         self.sokoban_spritesheet = load_sprite_data('sokoban_spritesheet@2.png')
         self.all_sprites = pygame.sprite.Group()
-        self.camera = Camera(self.data.play_map.width,self.data.play_map.height)
+        self.camera = Camera(self.data.play_map.width, self.data.play_map.height)
 
     def start(self):
         self.player.transform.position = (400, 400)
@@ -261,12 +242,6 @@ class PlayScene(Scene):
     def handle_events(self, event, delta_time):
         self.entities_manager.handle_events(event, delta_time)
 
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        self.entities_manager.handle_mouse_motions(event, delta_time, mouse_position)
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        self.entities_manager.handle_mouse_events(event, delta_time, mouse_position)
-
     def update(self, delta_time):
         self.entities_manager.update(delta_time)
         self.camera.update(self.player)
@@ -276,3 +251,34 @@ class PlayScene(Scene):
         window.blit(self.data.play_map_image, (0, 0))
         self.entities_manager.render(window)
         # draw_grid(window)
+
+
+# class test scene to test new code refactor
+class TestScene(Scene):
+    def __init__(self, scene_manager):
+        super().__init__(scene_manager)
+        self.name = "Test Scene"
+        self.tag = "Test Scene"
+        self.entities_manager = EntitiesManager()
+        self.canvas = Canvas(WIDTH / 2, HEIGHT / 2, 100, 100)
+        self.data = Data()
+
+    # scene  start method
+    def start(self):
+        self.canvas.font = self.data.kenny_future_narrow_font
+
+    # scene handle events method
+    def handle_events(self, event, delta_time):
+        self.canvas.handle_events(event, delta_time)
+        print(self.canvas.can_drag)
+
+    #  scene to update
+    def update(self, delta_time):
+        self.canvas.update(delta_time)
+
+    #  scene to render
+    def render(self, window):
+        window.fill(LIGHTGRAY)
+        draw_grid(window, 0.5, BLUE)
+        draw_grid(window, 1, RED)
+        self.canvas.render(window)

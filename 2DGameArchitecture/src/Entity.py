@@ -103,16 +103,6 @@ class Entity(object):
             for component in self.components.values():
                 component.handle_events(event, delta_time)
 
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        if self.gameObject.active:
-            for component in self.components.values():
-                component.handle_mouse_motions(event, delta_time, mouse_position)
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        if self.gameObject.active:
-            for component in self.components.values():
-                component.handle_mouse_events(event, delta_time, mouse_position)
-
     # function to update all the process of the entity
     def update(self, delta_time):
         if self.gameObject.active:

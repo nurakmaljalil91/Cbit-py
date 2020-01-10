@@ -21,12 +21,6 @@ class Component(object):
     def handle_events(self, event, delta_time):
         pass
 
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        pass
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        pass
-
     def update(self, delta_time):
         pass
 
