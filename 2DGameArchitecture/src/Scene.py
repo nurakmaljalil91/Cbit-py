@@ -261,24 +261,29 @@ class TestScene(Scene):
         self.tag = "Test Scene"
         self.entities_manager = EntitiesManager()
         self.canvas = Canvas(WIDTH / 2, HEIGHT / 2, 100, 100)
+        self.label = Label(300, 300, 100, 100, self.canvas)
         self.data = Data()
 
     # scene  start method
     def start(self):
         self.canvas.font = self.data.kenny_future_narrow_font
+        self.label.font = self.data.kenny_future_narrow_font
+        self.label.set_text('this is testing so do not make fun of me')
 
     # scene handle events method
     def handle_events(self, event, delta_time):
         self.canvas.handle_events(event, delta_time)
-        print(self.canvas.can_drag)
+        self.label.handle_events(event, delta_time)
 
     #  scene to update
     def update(self, delta_time):
         self.canvas.update(delta_time)
+        self.label.update(delta_time)
 
     #  scene to render
     def render(self, window):
         window.fill(LIGHTGRAY)
-        draw_grid(window, 0.5, BLUE)
-        draw_grid(window, 1, RED)
+        # draw_grid(window, 0.5, BLUE)
+        # draw_grid(window, 1, RED)
         self.canvas.render(window)
+        self.label.render(window)

@@ -1,4 +1,5 @@
-class SceneManager(object):
-    def __init__(self):
-        self.scenes = {}
-        self.current_scene = 0
+w = 3
+
+while True:
+    w = w * 1
+    print(w)
