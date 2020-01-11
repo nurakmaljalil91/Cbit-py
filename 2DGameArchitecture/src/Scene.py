@@ -62,6 +62,7 @@ class Data(object):
         self.play_map = load_map_data('play_scene.tmx')
         self.play_map_image = self.play_map.make_map()
         self.play_map_rect = self.play_map_image.get_rect()
+        self.green_sheet = load_sprite_data('greenSheet.png')
 
 
 # base class for all the scene
@@ -273,6 +274,10 @@ class TestScene(Scene):
         self.canvas.set_font(self.data.kenny_future_narrow_font)
         self.label.set_font(self.data.kenny_future_narrow_font)
         self.text.set_font(self.data.kenny_future_narrow_font)
+
+        self.button.set_normal_sprite(self.data.green_sheet.get_image(0, 0, 190, 49))
+        self.button.set_hover_sprite(self.data.green_sheet.get_image(0, 49, 190, 45))
+        self.button.set_pressed_sprite(self.data.green_sheet.get_image(0, 192, 190, 45))
 
         self.ui_holder.add(self.canvas)
         self.ui_holder.add(self.label)

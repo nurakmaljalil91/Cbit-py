@@ -6,8 +6,9 @@ vector2 = pygame.math.Vector2
 
 
 # base class for all the ui rectangle
-class CbitUI(object):
+class CbitUI(pygame.sprite.Sprite):
     def __init__(self, x, y, w, h):
+        pygame.sprite.Sprite.__init__(self)
         # main ui rectangle properties
         self.position = vector2(x, y)  # position of the ui
         self._width = w  # width of the ui
@@ -17,6 +18,7 @@ class CbitUI(object):
 
         # create the initial ui rectangle
         self._rect = pygame.Rect(self.position[0], self.position[1], self._width, self._height)
+        self.rect = self._rect
         self.thickness = 1  # thickness of the rect
 
         # create relative rectangle
@@ -28,6 +30,12 @@ class CbitUI(object):
         self._can_drag = False  # rect can be drag
         self._can_resize = False  # rectangle can resize
         self._can_rotate = False  # rectangle can rotate
+
+        self.has_sprite = False  # check if this ui has sprite
+        self.__normal_sprite = None  # sprite for normal sprite
+        self.__hover_sprite = None  # sprite for when hover
+        self.__pressed_sprite = None  # sprite for when press
+        self.image = None
 
     # base start function for ui
     def start(self):
@@ -68,24 +76,6 @@ class CbitUI(object):
         center_y = self._rect[1] - self._height
         return center_x, center_y
 
-    # update the relative rectangle
-    # def update_relative_rectangle(self, parent):
-    #     initial_offset = self.position - parent.get_rect_pos()
-    #     final_offset = self.position - parent.get_rect_pos()
-    #     if final_offset[0] < initial_offset[0]:
-    #         relative_position_x = self.position[0] + (final_offset[0] - initial_offset[0])
-    #     if final_offset[0] > initial_offset[0]:
-    #         relative_position_x = self.position[0] + (final_offset[0] - initial_offset[0])
-    #     if final_offset[1] < initial_offset[1]:
-    #         relative_position_y = self.position[1] + (final_offset[1] - initial_offset[1])
-    #     if final_offset[0] > initial_offset[0]:
-    #         relative_position_y = self.position[1] + (final_offset[1] - initial_offset[1])
-    #     else:
-    #         relative_position_x = self.position[0] + 0
-    #         relative_position_y = self.position[1] + 0
-    #
-    #     self._rel_rect = pygame.Rect(relative_position_x, relative_position_y, self._rect.w, self._rect.h)
-
     # function to show position of the rectangle
     def update_show_position(self):
         text_convert = 'rect : (' + str(self._rect.x) + "," + str(
@@ -121,6 +111,27 @@ class CbitUI(object):
         if self._can_resize:
             self.scale[0] += 0.1
 
+    def set_normal_sprite(self, normal_sprite):
+        self.__normal_sprite = normal_sprite
+        self.has_sprite = True
+
+    def get_normal_sprite(self):
+        return self.__normal_sprite
+
+    def set_hover_sprite(self, hover_sprite):
+        self.__hover_sprite = hover_sprite
+        self.has_sprite = True
+
+    def get_hover_sprite(self):
+        return self.__hover_sprite
+
+    def set_pressed_sprite(self, pressed_sprite):
+        self.__pressed_sprite = pressed_sprite
+        self.has_sprite = True
+
+    def get_pressed_sprite(self):
+        return self.__pressed_sprite
+
 
 # class responsible to manage all entities
 class CbitUIHolder(object):
@@ -132,6 +143,8 @@ class CbitUIHolder(object):
     def add(self, ui: CbitUI):
         self.uis.append(ui)  # add entity inside the entities
         ui.start()  # start the entity
+        if ui.has_sprite:
+            self.sprites_group.add(ui)
 
     # function to handle events for all the entities
     def handle_events(self, event, delta_time):
@@ -143,11 +156,11 @@ class CbitUIHolder(object):
         for ui in self.uis:
             ui.update(delta_time)
         # update sprite group
-        # self.sprites_group.update(delta_time)
+        self.sprites_group.update(delta_time)
 
     # function to render all the entities
     def render(self, window):
-        # self.sprites_group.draw(window)
+        self.sprites_group.draw(window)
         for ui in self.uis:
             ui.render(window)
 
@@ -269,7 +282,24 @@ class Button(CbitUI):
             self.__state = 0
 
     def update(self, delta_time):
-        pass
+        # self.update_rectangle()
+        if self.__state is 0:
+            if self.get_normal_sprite() is not None:
+                self.image = self.get_normal_sprite()
+
+        if self.__state is 1:
+            if self.get_hover_sprite() is not  None:
+                self.image = self.get_hover_sprite()
+
+        if self.__state is 2:
+            if self.get_pressed_sprite() is not None:
+                self.image = self.get_pressed_sprite()
+
+        self.rect = self.image.get_rect()
+        self._rect.width = self.rect.w
+        self._rect.height = self.rect.h
+        self.rect.x = self._rect.x
+        self.rect.y = self._rect.y
 
     def render(self, window):
         pygame.draw.rect(window, RED, self._rect, self.thickness)
