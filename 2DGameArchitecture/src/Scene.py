@@ -266,6 +266,7 @@ class TestScene(Scene):
         self.text = Text(WIDTH / 2, HEIGHT / 2, self.label, 'New Game')
         self.image = Image(100, 100, self.canvas, load_single_image_data('cbit-py-logo.png'))
         self.button = Button(300, 20, 100, 20, self.canvas)
+        self.button2 = Button(300, 200, 100, 20, self.canvas)
         self.ui_holder = CbitUIHolder()
         self.data = Data()
 
@@ -279,11 +280,15 @@ class TestScene(Scene):
         self.button.set_hover_sprite(self.data.green_sheet.get_image(0, 49, 190, 45))
         self.button.set_pressed_sprite(self.data.green_sheet.get_image(0, 192, 190, 45))
 
+        self.button2.set_normal_sprite(self.data.green_sheet.get_image(0, 0, 190, 49))
+        self.button2.set_hover_sprite(self.data.green_sheet.get_image(0, 49, 190, 45))
+        self.button2.set_pressed_sprite(self.data.green_sheet.get_image(0, 192, 190, 45))
         self.ui_holder.add(self.canvas)
         self.ui_holder.add(self.label)
         self.ui_holder.add(self.text)
         self.ui_holder.add(self.image)
         self.ui_holder.add(self.button)
+        self.ui_holder.add(self.button2)
 
     # scene handle events method
     def handle_events(self, event, delta_time):
@@ -292,6 +297,11 @@ class TestScene(Scene):
     #  scene to update
     def update(self, delta_time):
         self.ui_holder.update(delta_time)
+        if self.button.get_state() is 2:
+            self.image.active = False
+        if self.button2.get_state() is 2:
+            self.image.active = True
+            self.scene_manager.load(1)
 
     #  scene to render
     def render(self, window):
@@ -299,3 +309,27 @@ class TestScene(Scene):
         # draw_grid(window, 0.5, BLUE)
         # draw_grid(window, 1, RED)
         self.ui_holder.render(window)
+
+
+class TestScene2(Scene):
+    def __init__(self, scene_manager):
+        super().__init__(scene_manager)
+        self.name = "Test Scene 2"
+        self.tag = "Test Scene 2"
+        self.entities_manager = EntitiesManager()
+        self.entity = Entity()
+
+    def start(self):
+        self.entity.add_component(Rect())
+        self.entity.transform.position = WINDOW_CENTER
+        self.entities_manager.add(self.entity)
+
+    def handle_events(self, event, delta_time):
+        self.entities_manager.handle_events(event,delta_time)
+
+    def update(self, delta_time):
+        self.entities_manager.update(delta_time)
+
+    def render(self, window):
+        window.fill(LIGHTGRAY)
+        self.entities_manager.render(window)

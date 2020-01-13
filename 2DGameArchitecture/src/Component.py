@@ -34,16 +34,14 @@ class Rect(Component):
         super().__init__()
         self.id = 1  # component identifier : int
         self.key = 'Rect'
-        self.width = TILESIZE
-        self.height = TILESIZE
-
-    def start(self):
-        pass
+        self.rect = pygame.Rect(0, 0, TILESIZE,
+                                TILESIZE)
 
     def update(self, delta_time):
-        center_x = (self.entity.transform.position[0] - self.width) / 2
-        center_y = (self.entity.transform.position[1] - self.height) / 2
-        self.center = (center_x, center_y)
+        self.rect.center = self.entity.transform.position
+
+    def render(self, window):
+        pygame.draw.rect(window, BLUE, self.rect, 5)
 
 
 class Sprite(Component, pygame.sprite.Sprite):

@@ -1,6 +1,3 @@
-import  random
-import  string
-import  pygame
 # from win32api import GetSystemMetrics
 
 # import Xlib.display

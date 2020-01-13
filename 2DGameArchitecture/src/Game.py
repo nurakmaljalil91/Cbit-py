@@ -23,6 +23,7 @@ class Game(object):
         self.main_menu_scene = None  # declaration of main menu scene : MainMenuScene()
         self.splash_screen = None  # declaration of splash screen scene : SplashScreenScene()
         self.test_scene = None  # declaration of test scene : TestScene()
+        self.test_scene2 = None  # declaration of test scene : TestScene2()
 
         # Initialize the pygame(important to use pygame functions)
         pygame.init()  # initialize pygame
@@ -52,11 +53,13 @@ class Game(object):
         self.main_menu_scene = MainMenuScene(self.scene_manager)  # create main menu scene
         self.splash_screen = SplashScreen(self.scene_manager)  # create splash screen scene
         self.test_scene = TestScene(self.scene_manager)  # create test scene
+        self.test_scene2 = TestScene2(self.scene_manager)  # create test scene
 
         # self.scene_manager.add(self.splash_screen)  # insert splash screen first
         # self.scene_manager.add(self.main_menu_scene)  # insert menu scene inside the scene manager
         # self.scene_manager.add(self.play_scene)  # insert play scene inside scene manager
         self.scene_manager.add(self.test_scene)  # insert test scene inside scene manager
+        self.scene_manager.add(self.test_scene2)  # insert test scene inside scene manager
 
         # check if the scene manager is not empty
         if self.scene_manager.is_empty() is False:

@@ -9,6 +9,8 @@ vector2 = pygame.math.Vector2
 class CbitUI(pygame.sprite.Sprite):
     def __init__(self, x, y, w, h):
         pygame.sprite.Sprite.__init__(self)
+        # gameObject properties
+        self.active = True
         # main ui rectangle properties
         self.position = vector2(x, y)  # position of the ui
         self._width = w  # width of the ui
@@ -149,20 +151,23 @@ class CbitUIHolder(object):
     # function to handle events for all the entities
     def handle_events(self, event, delta_time):
         for ui in self.uis:
-            ui.handle_events(event, delta_time)
+            if ui.active:
+                ui.handle_events(event, delta_time)
 
     # function to update all the entities
     def update(self, delta_time):
         for ui in self.uis:
-            ui.update(delta_time)
-        # update sprite group
-        self.sprites_group.update(delta_time)
+            if ui.active:
+                ui.update(delta_time)
+                # update sprite group
+                self.sprites_group.update(delta_time)
 
     # function to render all the entities
     def render(self, window):
-        self.sprites_group.draw(window)
         for ui in self.uis:
-            ui.render(window)
+            if ui.active:
+                self.sprites_group.draw(window)
+                ui.render(window)
 
 
 # Canvas class to hold all the ui inside the window
@@ -288,7 +293,7 @@ class Button(CbitUI):
                 self.image = self.get_normal_sprite()
 
         if self.__state is 1:
-            if self.get_hover_sprite() is not  None:
+            if self.get_hover_sprite() is not None:
                 self.image = self.get_hover_sprite()
 
         if self.__state is 2:
@@ -304,3 +309,6 @@ class Button(CbitUI):
     def render(self, window):
         pygame.draw.rect(window, RED, self._rect, self.thickness)
         pygame.draw.circle(window, RED, self._rect.center, 5)
+
+    def get_state(self):
+        return self.__state
