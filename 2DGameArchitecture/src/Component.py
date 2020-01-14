@@ -50,12 +50,11 @@ class Sprite(Component, pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.id = 2
         self.key = 'Sprite'
-
-        self.image = None
-        self.rect = None
+        self.image = pygame.image.load('../resources/images/box.png')
+        self.rect = self.image.get_rect()
 
     def start(self):
-        pass
+        self.rect = self.entity.rect
 
     def update(self, delta_time):
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
@@ -64,17 +63,12 @@ class Sprite(Component, pygame.sprite.Sprite):
     def render(self, window):
         pass
 
-    def set_image(self, image):
+    def set_sprite(self, image):
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
         self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
-
-    def set_default_image(self, image):
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.entity.transform.width = self.image.get_rect().w
-        self.entity.transform.height = self.image.get_rect().h
+        self.image.set_colorkey(BLACK)
 
 
 class Collider(Component):

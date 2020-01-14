@@ -63,15 +63,17 @@ class Data(object):
         self.play_map_image = self.play_map.make_map()
         self.play_map_rect = self.play_map_image.get_rect()
         self.green_sheet = load_sprite_data('greenSheet.png')
+        self.sokoban_spritesheet = load_sprite_data('sokoban_spritesheet@2.png')
 
 
 # base class for all the scene
 class Scene(object):
-    def __init__(self, scene_manager):
+    def __init__(self, game):
         self.name = 'null'  # scene name : str
         self.tag = 'null'  # scene tag : str
         self.all_sprites = None  # this is all the sprite in the scene : pygame.sprite.Group()
-        self.scene_manager = scene_manager  # get the scene manager to change scene: SceneManger
+        self.game = game  # game for getting all the asset
+        self.scene_manager = self.game.scene_manager  # get the scene manager to change scene: SceneManger
 
     # scene base start method
     def start(self):
@@ -136,8 +138,8 @@ class SceneManager(object):
 # class splash screen
 # class splash screen will show logo for 5 seconds
 class SplashScreen(Scene):
-    def __init__(self, scene_manager):
-        super().__init__(scene_manager)
+    def __init__(self, game):
+        super().__init__(game)
         self.name = "Splash Screen"
         self.tag = "Splash Screen"
         self.entities_manager = EntitiesManager()
@@ -170,8 +172,8 @@ class SplashScreen(Scene):
 
 # class main menu
 class MainMenuScene(Scene):
-    def __init__(self, scene_manager):
-        super().__init__(scene_manager)
+    def __init__(self, game):
+        super().__init__(game)
         self.name = 'Main Menu '
         self.tag = 'Main Menu'
         self.entities_manager = EntitiesManager()
@@ -210,8 +212,8 @@ class MainMenuScene(Scene):
 
 # class play scene
 class PlayScene(Scene):
-    def __init__(self, scene_manager):
-        super().__init__(scene_manager)
+    def __init__(self, game):
+        super().__init__(game)
         self.name = 'Play Scene'
         self.tag = 'Play Scene'
         self.entities_manager = EntitiesManager()
@@ -256,8 +258,8 @@ class PlayScene(Scene):
 
 # class test scene to test new code refactor
 class TestScene(Scene):
-    def __init__(self, scene_manager):
-        super().__init__(scene_manager)
+    def __init__(self, game):
+        super().__init__(game)
         self.name = "Test Scene"
         self.tag = "Test Scene"
         self.entities_manager = EntitiesManager()
@@ -272,17 +274,17 @@ class TestScene(Scene):
 
     # scene  start method
     def start(self):
-        self.canvas.set_font(self.data.kenny_future_narrow_font)
-        self.label.set_font(self.data.kenny_future_narrow_font)
-        self.text.set_font(self.data.kenny_future_narrow_font)
+        self.canvas.set_font(self.game.asset.kenny_future_narrow_font)
+        self.label.set_font(self.game.asset.kenny_future_narrow_font)
+        self.text.set_font(self.game.asset.kenny_future_narrow_font)
 
-        self.button.set_normal_sprite(self.data.green_sheet.get_image(0, 0, 190, 49))
-        self.button.set_hover_sprite(self.data.green_sheet.get_image(0, 49, 190, 45))
-        self.button.set_pressed_sprite(self.data.green_sheet.get_image(0, 192, 190, 45))
+        self.button.set_normal_sprite(self.game.asset.green_sheet.get_image(0, 0, 190, 49))
+        self.button.set_hover_sprite(self.game.asset.green_sheet.get_image(0, 49, 190, 45))
+        self.button.set_pressed_sprite(self.game.asset.green_sheet.get_image(0, 192, 190, 45))
 
-        self.button2.set_normal_sprite(self.data.green_sheet.get_image(0, 0, 190, 49))
-        self.button2.set_hover_sprite(self.data.green_sheet.get_image(0, 49, 190, 45))
-        self.button2.set_pressed_sprite(self.data.green_sheet.get_image(0, 192, 190, 45))
+        self.button2.set_normal_sprite(self.game.asset.green_sheet.get_image(0, 0, 190, 49))
+        self.button2.set_hover_sprite(self.game.asset.green_sheet.get_image(0, 49, 190, 45))
+        self.button2.set_pressed_sprite(self.game.asset.green_sheet.get_image(0, 192, 190, 45))
         self.ui_holder.add(self.canvas)
         self.ui_holder.add(self.label)
         self.ui_holder.add(self.text)
@@ -312,20 +314,22 @@ class TestScene(Scene):
 
 
 class TestScene2(Scene):
-    def __init__(self, scene_manager):
-        super().__init__(scene_manager)
+    def __init__(self, game):
+        super().__init__(game)
         self.name = "Test Scene 2"
         self.tag = "Test Scene 2"
         self.entities_manager = EntitiesManager()
         self.entity = Entity()
+        self.data = Data()
 
     def start(self):
-        self.entity.add_component(Rect())
-        self.entity.transform.position = WINDOW_CENTER
+        self.entity.add_component(Sprite())
+        self.entity.get_component(Sprite()).set_sprite(self.data.sokoban_spritesheet.get_image(994, 988, 92, 108))
+        self.entity.transform.position = (300, 300)
         self.entities_manager.add(self.entity)
 
     def handle_events(self, event, delta_time):
-        self.entities_manager.handle_events(event,delta_time)
+        self.entities_manager.handle_events(event, delta_time)
 
     def update(self, delta_time):
         self.entities_manager.update(delta_time)

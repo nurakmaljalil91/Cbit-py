@@ -3,6 +3,16 @@ from src.Entity import *
 from src.Scene import *
 
 
+class Asset(object):
+    def __init__(self):
+        self.kenny_future_narrow_font = load_font_data('Kenney Future Narrow.ttf', 20)  # load font
+        self.play_map = load_map_data('play_scene.tmx')
+        self.play_map_image = self.play_map.make_map()
+        self.play_map_rect = self.play_map_image.get_rect()
+        self.green_sheet = load_sprite_data('greenSheet.png')
+        self.sokoban_spritesheet = load_sprite_data('sokoban_spritesheet@2.png')
+
+
 # class game
 class Game(object):
     def __init__(self, title, width, height, fullscreen):
@@ -16,7 +26,7 @@ class Game(object):
         self.delta_time = None  # delta time for the game : float
         self.fps_text = None  # fps text show :font
         self.fps_number = None
-
+        self.asset = None  # all asset for the game is load once inside the game
         # scene properties
         self.scene_manager = None  # declaration of scene manager : SceneManager()
         self.play_scene = None  # declaration of play scene : PlayScene()
@@ -41,6 +51,7 @@ class Game(object):
     def start(self):
         # starting the game
         self.is_running = True
+        self.asset = Asset()  # initialize the game asset
         self.data = Data()  # initialize the game data
         # starting the clock
         self.clock = pygame.time.Clock()
@@ -49,11 +60,11 @@ class Game(object):
         pygame.key.set_repeat(100, 100)
 
         self.scene_manager = SceneManager()  # create scene manager
-        self.play_scene = PlayScene(self.scene_manager)  # create play scene
-        self.main_menu_scene = MainMenuScene(self.scene_manager)  # create main menu scene
-        self.splash_screen = SplashScreen(self.scene_manager)  # create splash screen scene
-        self.test_scene = TestScene(self.scene_manager)  # create test scene
-        self.test_scene2 = TestScene2(self.scene_manager)  # create test scene
+        self.play_scene = PlayScene(self)  # create play scene
+        self.main_menu_scene = MainMenuScene(self)  # create main menu scene
+        self.splash_screen = SplashScreen(self)  # create splash screen scene
+        self.test_scene = TestScene(self)  # create test scene
+        self.test_scene2 = TestScene2(self)  # create test scene
 
         # self.scene_manager.add(self.splash_screen)  # insert splash screen first
         # self.scene_manager.add(self.main_menu_scene)  # insert menu scene inside the scene manager
