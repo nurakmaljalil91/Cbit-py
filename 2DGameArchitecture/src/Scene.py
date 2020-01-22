@@ -325,6 +325,7 @@ class TestScene2(Scene):
     def start(self):
         self.entity.add_component(Sprite())
         self.entity.get_component(Sprite()).set_sprite(self.data.sokoban_spritesheet.get_image(994, 988, 92, 108))
+        self.entity.get_component(Sprite()).show_rect = True
         self.entity.transform.position = (300, 300)
         self.entities_manager.add(self.entity)
 

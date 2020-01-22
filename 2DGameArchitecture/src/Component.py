@@ -28,40 +28,27 @@ class Component(object):
         pass
 
 
-# health component
-class Rect(Component):
-    def __init__(self):
-        super().__init__()
-        self.id = 1  # component identifier : int
-        self.key = 'Rect'
-        self.rect = pygame.Rect(0, 0, TILESIZE,
-                                TILESIZE)
-
-    def update(self, delta_time):
-        self.rect.center = self.entity.transform.position
-
-    def render(self, window):
-        pygame.draw.rect(window, BLUE, self.rect, 5)
-
-
 class Sprite(Component, pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
-        self.id = 2
+        self.id = 1
         self.key = 'Sprite'
         self.image = pygame.image.load('../resources/images/box.png')
         self.rect = self.image.get_rect()
+        self.show_rect = False
 
     def start(self):
         self.rect = self.entity.rect
 
     def update(self, delta_time):
+        self.rect = self.image.get_rect()
         self.rect.x = self.entity.transform.position[0] - self.rect.width / 2
         self.rect.y = self.entity.transform.position[1] - self.rect.height / 2
 
     def render(self, window):
-        pass
+        if self.show_rect:
+            pygame.draw.rect(window, BLUE, self.rect, 2)
 
     def set_sprite(self, image):
         self.image = image
@@ -74,7 +61,7 @@ class Sprite(Component, pygame.sprite.Sprite):
 class Collider(Component):
     def __init__(self):
         super().__init__()
-        self.id = 3
+        self.id = 2
         self.key = 'Collider'
 
         self.rect = None
@@ -209,99 +196,3 @@ class Movement(Component):
 
             if self.transform.position != mouse_position:
                 self.transform.position = mouse_position
-
-
-class Button(Component):
-    def __init__(self):
-        super().__init__()
-        self.id = 6
-        self.key = 'Button'
-        self.show_rect = True
-
-        self.rect = None
-        self.width = 128
-        self.height = 64
-        self.centerX = 0
-        self.centerY = 0
-        self.scene_manager = None
-        self.isHover = False
-        self.is_pressed = False
-
-    def start(self):
-        if self.transform is not None:
-            self.centerX = self.transform.position[0] - self.width / 2
-            self.centerY = self.transform.position[1] - self.height / 2
-            self.rect = pygame.Rect(self.centerX, self.centerY, self.width,
-                                    self.height)
-
-    def handle_events(self, event, delta_time):
-        pass
-
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        self.is_hover(mouse_position)
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        if self.is_hover(mouse_position):
-            self.is_pressed = True
-        else:
-            self.is_pressed = False
-
-    def update(self, delta_time):
-        self.centerX = self.entity.transform.position[0] - self.width / 2
-        self.centerY = self.entity.transform.position[1] - self.height / 2
-        self.rect = pygame.Rect(self.centerX, self.centerY, self.width,
-                                self.height)
-
-    def render(self, window, position: vector2, width, height):
-        if self.show_rect is True:
-            pygame.draw.rect(window, GREEN, self.rect)
-
-    def is_hover(self, mouse_position):
-        # if mouse_position[0] > self.centerX and mouse_position[0] < self.centerX + self.width:
-        # if mouse_position[1] > self.centerY and mouse_position[1] < self.centerY + self.height:
-        # print('test')
-        if self.centerX < mouse_position[0] < self.centerX + self.width:
-            if self.centerY < mouse_position[1] < self.centerY + self.height:
-                return True
-        return False
-
-
-class Text(Component):
-    def __init__(self):
-        super().__init__()
-        self.id = 7
-        self.key = 'Text'
-        self.size = 70
-        self.font = pygame.font.SysFont('comicsansms', self.size)
-        self.color = BLACK
-        self.text = 'Text'
-        self.txt = self.font.render(self.text, True, self.color)
-        self.centerX = None
-        self.centerY = None
-        self.width = None
-        self.height = None
-
-    def start(self):
-        self.txt = self.font.render(self.text, True, self.color)
-        self.width, self.height = self.font.size(self.text)
-
-        self.centerX = self.entity.transform.position[0] - self.width / 2
-        self.centerY = self.entity.transform.position[1] - self.height / 2
-
-    def handle_events(self, event, delta_time):
-        pass
-
-    def handle_mouse_motions(self, event, delta_time, mouse_position):
-        pass
-
-    def handle_mouse_events(self, event, delta_time, mouse_position):
-        pass
-
-    def update(self, delta_time):
-        self.txt = self.font.render(self.text, True, self.color)
-        self.width, self.height = self.font.size('Text')
-        self.centerX = self.entity.transform.position[0] - self.width / 2
-        self.centerY = self.entity.transform.position[1] - self.height / 2
-
-    def render(self, window, position: vector2, width, height):
-        window.blit(self.txt, (self.centerX, self.centerY))
