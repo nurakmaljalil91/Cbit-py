@@ -37,6 +37,7 @@ class Sprite(Component, pygame.sprite.Sprite):
         self.image = pygame.image.load('../resources/images/box.png')
         self.rect = self.image.get_rect()
         self.show_rect = False
+        self.is_animated = False
 
     def start(self):
         self.rect = self.entity.rect
@@ -58,15 +59,20 @@ class Sprite(Component, pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK)
 
 
-class Collider(Component):
+class SpriteAnimation(Component):
     def __init__(self):
         super().__init__()
         self.id = 2
-        self.key = 'Collider'
+        self.key = 'SpriteAnimation'
 
+
+class Collider(Component):
+    def __init__(self):
+        super().__init__()
+        self.id = 3
+        self.key = 'Collider'
         self.rect = None
         self.other_colliders = []
-
         self.show_rect = True
         self.velocity = vector2(0, 0)
 

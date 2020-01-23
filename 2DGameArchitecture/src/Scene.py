@@ -1,8 +1,9 @@
 import pygame
 from os import path
 from src.Settings import *
+from src.Component import *
 from src.Entity import *
-from src.Entity import Entity
+from src.Entity import Entity, EntitiesManager
 from src.Map import *
 from src.CbitUI import *
 
@@ -211,7 +212,7 @@ class MainMenuScene(Scene):
 
 
 # class play scene
-class PlayScene(Scene):
+class PlayScene2(Scene):
     def __init__(self, game):
         super().__init__(game)
         self.name = 'Play Scene'

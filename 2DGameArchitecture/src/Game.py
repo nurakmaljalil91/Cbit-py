@@ -1,6 +1,7 @@
 import pygame
 from src.Entity import *
 from src.Scene import *
+from sandbox.PlayScene import *
 
 
 class Asset(object):
@@ -70,7 +71,7 @@ class Game(object):
         # self.scene_manager.add(self.main_menu_scene)  # insert menu scene inside the scene manager
         # self.scene_manager.add(self.play_scene)  # insert play scene inside scene manager
         self.scene_manager.add(self.test_scene)  # insert test scene inside scene manager
-        self.scene_manager.add(self.test_scene2)  # insert test scene inside scene manager
+        self.scene_manager.add(self.play_scene)  # insert test scene inside scene manager
 
         # check if the scene manager is not empty
         if self.scene_manager.is_empty() is False:
