@@ -11,15 +11,15 @@ class Input(object):
         self.event = event
 
     def get_axis(self, direction: str):
-        if self.event is pygame.KEYDOWN:
-            if direction is 'vertical':
-                if self.event is pygame.K_LEFT:
+        if self.event == pygame.KEYDOWN:
+            if direction == 'vertical':
+                if self.event == pygame.K_LEFT:
                     self.direction = 1
-                if self.event is pygame.K_RIGHT:
+                if self.event == pygame.K_RIGHT:
                     self.direction = -1
-            if direction is 'horizontal':
-                if self.event is pygame.K_DOWN:
+            if direction == 'horizontal':
+                if self.event == pygame.K_DOWN:
                     self.direction = 1
-                if self.event is pygame.K_UP:
+                if self.event == pygame.K_UP:
                     self.direction = -1
         return self.direction

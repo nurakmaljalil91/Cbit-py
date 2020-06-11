@@ -47,7 +47,7 @@ def main():
     record_status = 'NORMAL'  # status of the application : str
     record_description = 'Normal behaviour of the software'  # description for the application : str
     record_written_activities = ''  # str(input('Record: '))  # user can record the activities : str
-    if record_written_activities is '':
+    if record_written_activities == '':
         written_activities = 'No activities record'  # if no input just write this
     try:
         record_log.writelines('\n')
