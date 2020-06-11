@@ -32,11 +32,17 @@ class Player(Entity):
         self.front_idle_animation.append(self.game.asset.sokoban_spritesheet.get_image(994, 988, 92, 108))
         self.front_idle_animation.append(self.game.asset.sokoban_spritesheet.get_image(994, 880, 92, 108))
 
+    def handle_events(self, event, delta_time):
+        # self.input.set(event)
+        # number = self.input.get_axis('horizontal')
+        # print(number)
+        if event is pygame.KEYDOWN:
+            if event is pygame.K_LEFT:
+                print('1')
+
     def update(self, delta_time):
         self.animation(delta_time)
         self.get_component(Sprite()).set_sprite(self.front_idle_animation[self.current_sprite])
-        number = self.input.get_axis('horizontal')
-        print(number)
 
     def animation(self, delta_time):
         now = pygame.time.get_ticks()

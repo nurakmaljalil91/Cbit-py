@@ -38,6 +38,7 @@ class Sprite(Component, pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.show_rect = False
         self.is_animated = False
+        self.layer = 0
 
     def start(self):
         self.rect = self.entity.rect

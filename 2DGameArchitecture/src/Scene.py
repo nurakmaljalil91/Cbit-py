@@ -143,31 +143,22 @@ class SplashScreen(Scene):
         super().__init__(game)
         self.name = "Splash Screen"
         self.tag = "Splash Screen"
-        self.entities_manager = EntitiesManager()
-        self.cbit_logo = Entity()
+        self.canvas = Canvas(WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT)
+        self.cbit_logo = Image(WIDTH / 2, HEIGHT / 2, self.canvas, load_single_image_data('cbit-py-logo.png'))
+        self.ui_holder = CbitUIHolder()
         self.time_to_fade = 5  # 5 seconds before change scene
 
     def start(self):
-        self.cbit_logo.add_component(Image())
-        self.cbit_logo.transform.position = WINDOW_CENTER
-        self.cbit_logo.get_component(Image()).image = load_single_image_data('cbit-py-logo.png')
-
-        self.entities_manager.add(self.cbit_logo)
+        pass
 
     def handle_events(self, event, delta_time):
-        self.entities_manager.handle_events(event, delta_time)
+        pass
 
     def update(self, delta_time):
-        self.time_to_fade -= delta_time
-        if self.time_to_fade <= 0:
-            # TODO: change scene
-            self.scene_manager.load(1)
-
-        self.entities_manager.update(delta_time)
+        pass
 
     def render(self, window):
-        window.fill(WHITE)
-        self.entities_manager.render(window)
+        pass
         # draw_center(window)
 
 
