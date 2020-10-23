@@ -2,6 +2,7 @@ import pygame
 from src.Entity import *
 from src.Scene import *
 from sandbox.PlayScene import *
+from src.Application import *
 
 
 class Asset(object):

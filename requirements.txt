@@ -1,0 +1,6 @@
+pygame==1.9.6
+PyTMX==3.21.7
+six==1.15.0
+
+dearpygui~=0.1.0b10
+pip~=20.1.1
