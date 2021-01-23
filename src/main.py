@@ -1,7 +1,9 @@
-from src.Game import Game
-from src.Settings import *
+from src.game import Game
+from src.settings import *
 from datetime import datetime
-# from src.Application import *
+import logging
+import logging.config
+import datetime
 
 
 # main function
@@ -15,10 +17,19 @@ def main():
     minor_change_no = 74  # version minor changes no : int
     version = str(build) + '.' + str(major_change_no) + '.' + str(minor_change_no)  # version : str
 
-    now = datetime.now()  # get the time now : datetime()
-    record_log = open('../dev/record.log', 'a')  # create a record log to record activities
+    current_time = datetime.datetime.now()
+    logging_filename = f'{current_time.year}-{current_time.month}-{current_time.day}-{current_time.timestamp()}.log'
 
     # this is welcoming page and developer description
+    logging.basicConfig(filename=f'../log/{logging_filename}',
+                        filemode='a',
+                        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                        datefmt='%H:%M:%S',
+                        level=logging.DEBUG)
+
+    # logger = logging.getLogger(__name__)
+
+    # logger.debug('This is a debug message')
     print('welcome to Cbit-Python game engine')
     print('Author :', author)  # show author name
     print('Software version :', version)  # show application version
@@ -28,8 +39,7 @@ def main():
     # -----------------
     # create the game
     game = Game(TITLE, WIDTH, HEIGHT, False)  # game : Game()
-    # app = Application()
-    # app.update()
+
     # init the game
     game.start()
     # game loop
@@ -41,31 +51,9 @@ def main():
     game.quit()  # quit the game
     # -----------------
 
-    # for recording and log
-    # ---------------------
-    # dd/mm/YY H:M:S
-    date_string = now.strftime('%d-%m-%Y %H:%M:%S')
-    # record
-    # format date :: status :: status description :: written
-    record_status = 'NORMAL'  # status of the application : str
-    record_description = 'Normal behaviour of the software'  # description for the application : str
-    record_written_activities = ''  # str(input('Record: '))  # user can record the activities : str
-    if record_written_activities == '':
-        written_activities = 'No activities record'  # if no input just write this
-    try:
-        record_log.writelines('\n')
-        record_log.writelines(date_string)  # record date
-        record_log.writelines(' :: ')
-        record_log.writelines(record_status)  # record status
-        record_log.writelines(' :: ')
-        record_log.writelines(record_description)  # record description
-        record_log.writelines(' :: ')
-        record_log.writelines(record_written_activities)  # recored input activities
-    finally:
-        record_log.close()  # close the record log file
-
     quit()  # quit the application
 
 
 # process the main
-main()
+if __name__ == '__main__':
+    main()

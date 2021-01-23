@@ -1,10 +1,10 @@
-from src.Component import *
-from src.Component import Sprite
-from src.Entity import *
-from src.Settings import *
-from src.Game import *
+from src.component import *
+from src.component import Sprite
+from src.entity import Entity
+from src.settings import *
+from src.game import *
 from enum import Enum
-from src.Input import *
+from src.input import *
 
 
 class State(Enum):

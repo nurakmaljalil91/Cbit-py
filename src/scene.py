@@ -1,11 +1,14 @@
 import pygame
 from os import path
-from src.Settings import *
-from src.Component import *
-from src.Entity import *
-from src.Entity import Entity, EntitiesManager
-from src.Map import *
-from src.CbitUI import *
+
+from pygame.sprite import Sprite
+
+from src.settings import *
+from src.component import *
+from src.entity import *
+from src.entity import Entity, EntitiesManager
+from src.map import *
+from src.cbit_ui import *
 
 
 # this function is to load the image file so only load
@@ -291,9 +294,9 @@ class TestScene(Scene):
     #  scene to update
     def update(self, delta_time):
         self.ui_holder.update(delta_time)
-        if self.button.get_state() is 2:
+        if self.button.get_state() == 2:
             self.image.active = False
-        if self.button2.get_state() is 2:
+        if self.button2.get_state() == 2:
             self.image.active = True
             self.scene_manager.load(1)
 

@@ -1,8 +1,8 @@
 import pygame
 import random
 import string
-from src.Component import *
-from src.Settings import *
+from src.component import *
+from src.settings import *
 
 
 # this function will generate random id consist of str and int

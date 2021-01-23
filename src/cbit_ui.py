@@ -1,5 +1,5 @@
 import pygame
-from src.Settings import *
+from src.settings import *
 
 # vector2 : vector2(x,y)
 vector2 = pygame.math.Vector2
@@ -288,15 +288,15 @@ class Button(CbitUI):
 
     def update(self, delta_time):
         # self.update_rectangle()
-        if self.__state is 0:
+        if self.__state == 0:
             if self.get_normal_sprite() is not None:
                 self.image = self.get_normal_sprite()
 
-        if self.__state is 1:
+        if self.__state == 1:
             if self.get_hover_sprite() is not None:
                 self.image = self.get_hover_sprite()
 
-        if self.__state is 2:
+        if self.__state == 2:
             if self.get_pressed_sprite() is not None:
                 self.image = self.get_pressed_sprite()
 

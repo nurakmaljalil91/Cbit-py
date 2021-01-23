@@ -1,7 +1,7 @@
-from src.Entity import EntitiesManager
-from src.Scene import *
-from src.Settings import *
-from sandbox.Player import *
+from src.entity import EntitiesManager
+from src.scene import *
+from src.settings import *
+from sandbox.player import *
 
 
 class PlayScene(Scene):

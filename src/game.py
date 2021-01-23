@@ -1,8 +1,9 @@
-import pygame
-from src.Entity import *
-from src.Scene import *
-from sandbox.PlayScene import *
+import logging
+
+from sandbox.play_scene import *
+from src.entity import *
 # from src.Application import *
+from src.scene import load_font_data
 
 
 class Asset(object):
@@ -47,7 +48,7 @@ class Game(object):
         else:
             self.window = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         pygame.display.set_caption(self.title)  # set the title for the game
-        print('[INFO] Game::Game is created')
+        logging.info('Game is created')
 
     # start allow the game to initialize everything
     def start(self):
@@ -71,7 +72,7 @@ class Game(object):
         # self.scene_manager.add(self.splash_screen)  # insert splash screen first
         # self.scene_manager.add(self.main_menu_scene)  # insert menu scene inside the scene manager
         # self.scene_manager.add(self.play_scene)  # insert play scene inside scene manager
-        self.scene_manager.add(self.test_scene)  # insert test scene inside scene manager
+        # self.scene_manager.add(self.splash_screen)  # insert test scene inside scene manager
         self.scene_manager.add(self.play_scene)  # insert test scene inside scene manager
 
         # check if the scene manager is not empty

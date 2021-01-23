@@ -1,8 +1,8 @@
 import pygame
 
-from src.Settings import *
-from src.Entity import *
-from src.Game import *
+from src.settings import *
+from src.entity import *
+from src.game import *
 
 # vector2 : vector2(x,y)
 vector2 = pygame.math.Vector2
