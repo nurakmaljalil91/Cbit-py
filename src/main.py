@@ -1,7 +1,7 @@
 from src.Game import Game
 from src.Settings import *
 from datetime import datetime
-from src.Application import *
+# from src.Application import *
 
 
 # main function
@@ -28,8 +28,8 @@ def main():
     # -----------------
     # create the game
     game = Game(TITLE, WIDTH, HEIGHT, False)  # game : Game()
-    app = Application()
-    app.update()
+    # app = Application()
+    # app.update()
     # init the game
     game.start()
     # game loop
